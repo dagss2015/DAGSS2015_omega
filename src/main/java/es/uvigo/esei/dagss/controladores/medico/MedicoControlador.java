@@ -6,11 +6,19 @@ package es.uvigo.esei.dagss.controladores.medico;
 import es.uvigo.esei.dagss.controladores.autenticacion.AutenticacionControlador;
 import es.uvigo.esei.dagss.dominio.daos.CitaDAO;
 import es.uvigo.esei.dagss.dominio.daos.MedicoDAO;
+import es.uvigo.esei.dagss.dominio.entidades.Cita;
 import es.uvigo.esei.dagss.dominio.entidades.Medico;
 import es.uvigo.esei.dagss.dominio.entidades.TipoUsuario;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -37,6 +45,8 @@ public class MedicoControlador implements Serializable {
     @EJB
     private MedicoDAO medicoDAO;
 
+    @EJB
+    private CitaDAO citaDAO;
     /**
      * Creates a new instance of AdministradorControlador
      */
@@ -89,7 +99,12 @@ public class MedicoControlador implements Serializable {
         }
         return medico;
     }
-
+    public List<Cita> verCitasHoy(){
+        String DATE_FORMAT = "yyyyMMdd";
+        SimpleDateFormat sdf =new SimpleDateFormat(DATE_FORMAT);
+        Date hoy = Calendar.getInstance().getTime();
+          return  citaDAO.buscarCitasMedico(medicoActual.getId(),hoy);
+    }
     public String doLogin() {
         String destino = null;
         if (parametrosAccesoInvalidos()) {

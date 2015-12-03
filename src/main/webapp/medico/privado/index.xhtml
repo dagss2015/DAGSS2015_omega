@@ -21,6 +21,27 @@
             <ui:define name="contenido">
                 <h:outputText value="Welcome, dr. #{medicoControlador.medicoActual.nombre}" />
                 <h:outputText value=" #{medicoControlador.medicoActual.email}"/>
+
+
+                <h:dataTable value="#{medicoControlador.verCitasHoy()}" var="cita">
+                    <f:facet name="header"><h4>Listado de Citas</h4></f:facet>
+                    <h:column>
+                        <f:facet name="header">ID</f:facet>
+                        <h:outputText value="#{cita.id}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Paciente</f:facet>
+                        <h:outputText value="#{cita.paciente.nombre}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Hora</f:facet>
+                        <h:outputText value="#{cita.hora}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Estado</f:facet>
+                        <h:outputText value="#{cita.estado}"/>
+                    </h:column>
+                </h:dataTable>
             </ui:define>
         </ui:composition>
 
