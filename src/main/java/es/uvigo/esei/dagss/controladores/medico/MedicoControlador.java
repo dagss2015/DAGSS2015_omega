@@ -37,7 +37,8 @@ public class MedicoControlador implements Serializable {
     private String dni;
     private String numeroColegiado;
     private String password;
-
+    private Cita citaActual;
+    
     @Inject
     private AutenticacionControlador autenticacionControlador;
     
@@ -84,7 +85,13 @@ public class MedicoControlador implements Serializable {
     public void setMedicoActual(Medico medicoActual) {
         this.medicoActual = medicoActual;
     }
+ public Cita getCitaActual() {
+        return citaActual;
+    }
 
+    public void setCitaActual(Cita medicoActual) {
+        this.citaActual = medicoActual;
+    }
     private boolean parametrosAccesoInvalidos() {
         return (((dni == null) && (numeroColegiado == null)) || (password == null));
     }
@@ -127,7 +134,10 @@ public class MedicoControlador implements Serializable {
     }
 
     //Acciones
-    public String doShowCita() {
-        return "detallesCita";
+    public String doShowCita(Cita cita) {
+        this.citaActual=cita;
+        String destino = null;
+        destino="verCita";
+        return destino;
     }
 }

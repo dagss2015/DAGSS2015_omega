@@ -21,32 +21,34 @@
             <ui:define name="contenido">
                 <h:outputText value="Welcome, dr. #{medicoControlador.medicoActual.nombre}" />
                 <h:outputText value=" #{medicoControlador.medicoActual.email}"/>
+                <h:outputText value="Id de la cita #{medicoControlador.citaActual.id}"/>
 
-                <h:dataTable value="#{medicoControlador.verCitasHoy()}" var="cita">
-                    <f:facet name="header"><h4>Listado de Citas</h4></f:facet>
-                    <h:column>
-                        <f:facet name="header">ID</f:facet>
-                        <h:outputText value="#{cita.id}"/>
+                <div>
+                  
+                
+                </div>
+                <h:dataTable value="#{medicoControlador.citaActual}" var="cita">
+                    
+                    <h:column class="clasedeprueba">
+                       
+                        <h:outputText value="Id Cita: #{cita.id}"/>
                     </h:column>
+                    <h:column></h:column>
                     <h:column>
-                        <f:facet name="header">Paciente</f:facet>
-                        <h:outputText value="#{cita.paciente.nombre}"/>
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">Hora</f:facet>
-                        <h:outputText value="#{cita.hora}"/>
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">Estado</f:facet>
-                        <h:outputText value="#{cita.estado}"/>
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">Estado</f:facet>
-                        <h:form>
-                        <h:commandButton value="Ver Cita" action="#{medicoControlador.doShowCita(cita)}"></h:commandButton>
                         
-                        </h:form>
+                        <h:outputText value="Nombre Paciente: #{cita.paciente.nombre}"/>
                     </h:column>
+                    <h:column></h:column>
+                    <h:column>
+                        
+                        <h:outputText value="Hora cita: #{cita.hora}"/>
+                    </h:column>
+                    <h:column></h:column>
+                    <h:column>
+                        
+                        <h:outputText value="Estado: #{cita.estado}"/>
+                    </h:column>
+                   
                 </h:dataTable>
             </ui:define>
         </ui:composition>
