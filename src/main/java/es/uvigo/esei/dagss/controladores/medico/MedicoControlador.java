@@ -6,9 +6,12 @@ package es.uvigo.esei.dagss.controladores.medico;
 import es.uvigo.esei.dagss.controladores.autenticacion.AutenticacionControlador;
 import es.uvigo.esei.dagss.dominio.daos.CitaDAO;
 import es.uvigo.esei.dagss.dominio.daos.MedicoDAO;
+import es.uvigo.esei.dagss.dominio.daos.TratamientoDAO;
 import es.uvigo.esei.dagss.dominio.entidades.Cita;
+import es.uvigo.esei.dagss.dominio.entidades.EstadoCita;
 import es.uvigo.esei.dagss.dominio.entidades.Medico;
 import es.uvigo.esei.dagss.dominio.entidades.TipoUsuario;
+import es.uvigo.esei.dagss.dominio.entidades.Tratamiento;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
@@ -46,6 +49,9 @@ public class MedicoControlador implements Serializable {
     @EJB
     private MedicoDAO medicoDAO;
 
+    @EJB
+    private TratamientoDAO tratamientoDAO;
+    
     @EJB
     private CitaDAO citaDAO;
     /**
@@ -106,6 +112,14 @@ public class MedicoControlador implements Serializable {
         }
         return medico;
     }
+    public Tratamiento getTratamientoCitaActual(){
+        
+        List<Tratamiento> lista=this.tratamientoDAO.getTratamiento(this.citaActual.getPaciente().getId());
+        for (Tratamiento tratamiento : lista) {
+            tratamiento.
+        }
+        return null;
+    }
     public List<Cita> verCitasHoy(){
         String DATE_FORMAT = "yyyyMMdd";
         SimpleDateFormat sdf =new SimpleDateFormat(DATE_FORMAT);
@@ -139,5 +153,15 @@ public class MedicoControlador implements Serializable {
         String destino = null;
         destino="verCita";
         return destino;
+    }
+    
+    public void marcarAusente(){
+        this.citaActual.setEstado(EstadoCita.AUSENTE);
+        this.citaDAO.actualizar(this.citaActual);
+    }
+    
+    public void marcarCompletada(){
+        this.citaActual.setEstado(EstadoCita.COMPLETADA);
+        this.citaDAO.actualizar(this.citaActual);
     }
 }

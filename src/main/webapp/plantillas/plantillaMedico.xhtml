@@ -2,7 +2,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
 
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -20,27 +21,21 @@
             </div>
             <div id="cuerpo">
                 <div id="izquierda">
+                    <h:form>
+                    <p:menu>
+                        <p:menuitem value="Ver Agenda" outcome="index.xhtml"></p:menuitem>
+                        <p:menuitem value="Ver Pacientes" ></p:menuitem>
+                        <p:menuitem value="Ver Tratamientos" ></p:menuitem>
+                        <p:menuitem value="Ver Medicamentos" ></p:menuitem>
+                    </p:menu>
+                        </h:form>
                     <h:form rendered="#{autenticacionControlador.usuarioAutenticado}"> 
                         <h:commandLink value="Desconectar" 
                                        action="#{autenticacionControlador.doLogOut()}"/>
                     </h:form>
-                    <h:form rendered="#{autenticacionControlador.usuarioAutenticado}"> 
-                        <h:commandLink value="VerAgenda" 
-                                       action="#{autenticacionControlador.doLogOut()}"/>
-                    </h:form>
-                    <h:form rendered="#{autenticacionControlador.usuarioAutenticado}"> 
-                        <h:commandLink value="Ver pacientes" 
-                                       action="#{autenticacionControlador.doLogOut()}"/>
-                    </h:form>
-                    <h:form rendered="#{autenticacionControlador.usuarioAutenticado}"> 
-                        <h:commandLink value="Ver tratamientos" 
-                                       action="#{autenticacionControlador.doLogOut()}"/>
-                    </h:form>
-                    <h:form rendered="#{autenticacionControlador.usuarioAutenticado}"> 
-                        <h:commandLink value="Ver medicamentos" 
-                                       action="#{autenticacionControlador.doLogOut()}"/>
-                    </h:form>
-                    <ui:insert name="izquierda"/>
+                    
+                    
+                    
                 </div>
                 <div id="contenido">
                     <ui:insert name="contenido"/>
