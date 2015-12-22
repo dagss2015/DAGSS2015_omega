@@ -12,6 +12,7 @@ import es.uvigo.esei.dagss.dominio.entidades.Cita;
 import es.uvigo.esei.dagss.dominio.entidades.EstadoCita;
 import es.uvigo.esei.dagss.dominio.entidades.Medicamento;
 import es.uvigo.esei.dagss.dominio.entidades.Medico;
+import es.uvigo.esei.dagss.dominio.entidades.Prescripcion;
 import es.uvigo.esei.dagss.dominio.entidades.TipoUsuario;
 import es.uvigo.esei.dagss.dominio.entidades.Tratamiento;
 import javax.inject.Named;
@@ -19,6 +20,7 @@ import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedList;
@@ -39,10 +41,12 @@ import javax.inject.Inject;
 @SessionScoped
 public class MedicoControlador implements Serializable {
 
+    private int dosis=1;
     private Medico medicoActual;
     private String dni;
     private String numeroColegiado;
     private String password;
+    private String comentarioPrescripcion;
     private Cita citaActual;
     private String textoBusqueda;
     private List<Medicamento> medicamentos; 
@@ -51,6 +55,9 @@ public class MedicoControlador implements Serializable {
     
     @Inject
     private AutenticacionControlador autenticacionControlador;
+    
+    @EJB
+    private TratamientoService tratamientoService;
     
 
     @EJB
@@ -70,6 +77,20 @@ public class MedicoControlador implements Serializable {
         this.medicamentos= new LinkedList<>();
     }
 
+      public int getDosis() {
+        return dosis;
+    }
+
+    public void setDosis(int dosis) {
+        this.dosis = dosis;
+    }
+    
+    public void setComentarioPrescripcion(String comentario){
+    this.comentarioPrescripcion=comentario;
+}
+    public String getComentarioPrescripcion(){
+        return this.comentarioPrescripcion;
+    }
     public List<Medicamento> getMedicamentos(){
         return medicamentos;
     }
@@ -162,12 +183,8 @@ public class MedicoControlador implements Serializable {
         //return null;
     }
     
-    public void doAddTratamiento(){
-        Tratamiento aux=new Tratamiento(citaActual.getPaciente(), medicoActual, "comentario", fechaInicio, fechaFin);
-         tratamientoDAO.crear(aux);
-         
-         
-          
+    public void doAddTratamiento(Medicamento medicamento){
+        tratamientoService.doAddTratamiento(medicamento, citaActual, medicoActual, fechaInicio, fechaFin,comentarioPrescripcion, dosis);
     }
     public List<Cita> verCitasHoy(){
         String DATE_FORMAT = "yyyyMMdd";

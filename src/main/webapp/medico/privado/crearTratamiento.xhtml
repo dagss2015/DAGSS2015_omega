@@ -30,14 +30,18 @@
                     <h:outputLabel for="fechaFinal" value="Fecha Final" />
                     <p:calendar id="fechaFinal" value="#{medicoControlador.fechaFin}"/>
                     
-                    <h:commandButton value="Guardar" action="#{medicoControlador.doShowCita(cita)}"></h:commandButton>
+                    
                     
                <h:panelGrid columnClasses="3">
                         <h:outputLabel value="Buscar: "></h:outputLabel>
                         <h:inputText value="#{medicoControlador.textoBusqueda}"></h:inputText>
+                        <h:outputLabel value="Comentario: "></h:outputLabel>
+                        <h:inputText value="#{medicoControlador.comentarioPrescripcion}"></h:inputText>
+                        <h:outputLabel value="Dosis "></h:outputLabel>
+                        <h:inputText value="#{medicoControlador.dosis}"></h:inputText>
                         <h:commandButton value="Buscar" action="#{medicoControlador.doBuscarMedicamento()}"></h:commandButton>
                     </h:panelGrid>
-                
+                 
                     <h:dataTable value="#{medicoControlador.medicamentos}" var="medicamento">
                     <f:facet name="header"><h4>Listado de Medicamentos</h4></f:facet>
                     
@@ -63,13 +67,13 @@
                     </h:column>
                      <h:column>
                         <f:facet name="header">Añadir</f:facet>
-                        <h:form>
-                            <h:commandButton value="Añadir" action="#{medicoControlador.doAddTratamiento()}"></h:commandButton>
+                       
+                            <h:commandButton value="Añadir" action="#{medicoControlador.doAddTratamiento(medicamento)}"></h:commandButton>
                         
-                        </h:form>
+                       
                     </h:column>
                 </h:dataTable>
-                
+          
                    
                 
             </h:form>
