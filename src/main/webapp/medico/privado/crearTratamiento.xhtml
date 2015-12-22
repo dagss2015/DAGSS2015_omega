@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="/plantillas/plantillaMedico.xhtml">
+
+            <ui:define name="tituloPagina">
+                Ver cita
+            </ui:define>            
+
+            
+                
+            
+
+            <ui:define name="contenido">
+                <h:form>
+                    <h:outputText value="Nombre del medico: #{medicoControlador.medicoActual.nombre}" />
+                    <h:outputText value="Editor de tratamientos para: #{medicoControlador.citaActual.paciente.nombre}" />
+                    <h:outputText value="Editor de tratamientos para: #{medicoControlador.citaActual.paciente.apellidos}" />
+                    <br></br>
+                    <h:outputLabel for="fechaInicio" value="Fecha Inicio" />
+                    <p:calendar id="fechaInicio" value="#{medicoControlador.fechaInicio}"/>
+                    <br></br>
+                    <h:outputLabel for="fechaFinal" value="Fecha Final" />
+                    <p:calendar id="fechaFinal" value="#{medicoControlador.fechaFin}"/>
+                    
+                    <h:commandButton value="Guardar" action="#{medicoControlador.doShowCita(cita)}"></h:commandButton>
+                    
+               <h:panelGrid columnClasses="3">
+                        <h:outputLabel value="Buscar: "></h:outputLabel>
+                        <h:inputText value="#{medicoControlador.textoBusqueda}"></h:inputText>
+                        <h:commandButton value="Buscar" action="#{medicoControlador.doBuscarMedicamento()}"></h:commandButton>
+                    </h:panelGrid>
+                
+                    <h:dataTable value="#{medicoControlador.medicamentos}" var="medicamento">
+                    <f:facet name="header"><h4>Listado de Medicamentos</h4></f:facet>
+                    
+                    <h:column>
+                        <f:facet name="header">Nombre</f:facet>
+                        <h:outputText value="#{medicamento.nombre}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Principio Activo</f:facet>
+                        <h:outputText value="#{medicamento.principioActivo}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Dosis</f:facet>
+                        <h:outputText value="#{medicamento.numeroDosis}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Familia</f:facet>
+                        <h:outputText value="#{medicamento.familia}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">fabricante</f:facet>
+                        <h:outputText value="#{medicamento.fabricante}"/>
+                    </h:column>
+                     <h:column>
+                        <f:facet name="header">Añadir</f:facet>
+                        <h:form>
+                            <h:commandButton value="Añadir" action="#{medicoControlador.doAddTratamiento()}"></h:commandButton>
+                        
+                        </h:form>
+                    </h:column>
+                </h:dataTable>
+                
+                   
+                
+            </h:form>
+            </ui:define>
+        </ui:composition>
+
+    </body>
+</html>

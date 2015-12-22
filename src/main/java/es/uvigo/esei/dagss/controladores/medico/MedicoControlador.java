@@ -5,10 +5,12 @@ package es.uvigo.esei.dagss.controladores.medico;
 
 import es.uvigo.esei.dagss.controladores.autenticacion.AutenticacionControlador;
 import es.uvigo.esei.dagss.dominio.daos.CitaDAO;
+import es.uvigo.esei.dagss.dominio.daos.MedicamentoDAO;
 import es.uvigo.esei.dagss.dominio.daos.MedicoDAO;
 import es.uvigo.esei.dagss.dominio.daos.TratamientoDAO;
 import es.uvigo.esei.dagss.dominio.entidades.Cita;
 import es.uvigo.esei.dagss.dominio.entidades.EstadoCita;
+import es.uvigo.esei.dagss.dominio.entidades.Medicamento;
 import es.uvigo.esei.dagss.dominio.entidades.Medico;
 import es.uvigo.esei.dagss.dominio.entidades.TipoUsuario;
 import es.uvigo.esei.dagss.dominio.entidades.Tratamiento;
@@ -19,6 +21,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -41,11 +44,17 @@ public class MedicoControlador implements Serializable {
     private String numeroColegiado;
     private String password;
     private Cita citaActual;
+    private String textoBusqueda;
+    private List<Medicamento> medicamentos; 
+    private Date fechaInicio;
+    private Date fechaFin;
     
     @Inject
     private AutenticacionControlador autenticacionControlador;
     
 
+    @EJB
+    private MedicamentoDAO medicamentoDAO;
     @EJB
     private MedicoDAO medicoDAO;
 
@@ -58,12 +67,34 @@ public class MedicoControlador implements Serializable {
      * Creates a new instance of AdministradorControlador
      */
     public MedicoControlador() {
+        this.medicamentos= new LinkedList<>();
     }
 
+    public List<Medicamento> getMedicamentos(){
+        return medicamentos;
+    }
+    public Date getFechaInicio(){
+        return this.fechaInicio;
+    }
+    public void setFechaInicio(Date fecha){
+        this.fechaInicio=fecha;
+    }
+     public Date getFechaFin(){
+        return this.fechaFin;
+    }
+    public void setFechaFin(Date fecha){
+        this.fechaFin=fecha;
+    }
+    
     public String getDni() {
         return dni;
     }
-
+    public void setTextoBusqueda(String aux){
+        this.textoBusqueda=aux;
+    }
+    public String getTextoBusqueda(){
+        return this.textoBusqueda;
+    }
     public void setDni(String dni) {
         this.dni = dni;
     }
@@ -71,7 +102,14 @@ public class MedicoControlador implements Serializable {
     public String getNumeroColegiado() {
         return numeroColegiado;
     }
-
+    public void doBuscarMedicamento(){
+        
+        medicamentos= medicamentoDAO.buscarPorPrincipioActivo(textoBusqueda);
+        if(medicamentos.isEmpty()){
+            medicamentos= medicamentoDAO.buscarPorNombre(textoBusqueda);
+        }      
+    }
+    
     public void setNumeroColegiado(String numeroColegiado) {
         this.numeroColegiado = numeroColegiado;
     }
@@ -112,13 +150,24 @@ public class MedicoControlador implements Serializable {
         }
         return medico;
     }
-    public Tratamiento getTratamientoCitaActual(){
+    public String doCrearTratamiento(){
+        //.citaActual=cita;
         
+        return "/medico/privado/crearTratamiento";
+        /*
         List<Tratamiento> lista=this.tratamientoDAO.getTratamiento(this.citaActual.getPaciente().getId());
-        for (Tratamiento tratamiento : lista) {
+        for (Tratamiento tratamiento : lista) {long idMedicamento
             tratamiento.
-        }
-        return null;
+        }*/
+        //return null;
+    }
+    
+    public void doAddTratamiento(){
+        Tratamiento aux=new Tratamiento(citaActual.getPaciente(), medicoActual, "comentario", fechaInicio, fechaFin);
+         tratamientoDAO.crear(aux);
+         
+         
+          
     }
     public List<Cita> verCitasHoy(){
         String DATE_FORMAT = "yyyyMMdd";
@@ -157,11 +206,11 @@ public class MedicoControlador implements Serializable {
     
     public void marcarAusente(){
         this.citaActual.setEstado(EstadoCita.AUSENTE);
-        this.citaDAO.actualizar(this.citaActual);
+        this.citaActual = this.citaDAO.actualizar(this.citaActual);
     }
     
     public void marcarCompletada(){
         this.citaActual.setEstado(EstadoCita.COMPLETADA);
-        this.citaDAO.actualizar(this.citaActual);
+        this.citaActual =this.citaDAO.actualizar(this.citaActual);
     }
 }

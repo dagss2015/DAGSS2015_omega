@@ -19,7 +19,7 @@
             
 
             <ui:define name="contenido">
-                <h:form>
+               
                 <h:outputText value="Welcome, dr. #{medicoControlador.medicoActual.nombre}" />
                 <h:outputText value=" #{medicoControlador.medicoActual.email}"/>
                 <h:outputText value="Id de la cita #{medicoControlador.citaActual.id}"/>
@@ -52,34 +52,15 @@
                    
                 </h:dataTable>
                 
-                <h:dataTable value="#{medicoControlador.citaActual}" var="cita">
-                    <f:facet name="header"><h4>Tratamiento</h4></f:facet>
-                    <h:column>
-                        <f:facet name="header">Medicina</f:facet>
-                        <h:outputText value="#{cita.id}"/>
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">Dosis</f:facet>
-                        <h:outputText value="#{cita.paciente.nombre}"/>
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">Hora</f:facet>
-                        <h:outputText value="#{cita.hora}"/>
-                    </h:column>
-                   
-                    <h:column>
-                        
-                        <h:form>
-                            
-                        <h:commandButton value="eliminar" action="#{medicoControlador.doShowCita(cita)}"></h:commandButton>
-                        <h:commandButton value="modificar" action="#{medicoControlador.doShowCita(cita)}"></h:commandButton>
-                        </h:form>
-                    </h:column>
-                </h:dataTable>
+               
                 <h:form>
-                    <h:commandButton value="añadir tratamiento" action="#{medicoControlador.doShowCita(cita)}"></h:commandButton>
+                    
+                    <h:commandButton value="Crear tratamiento" action="#{medicoControlador.doCrearTratamiento()}"></h:commandButton>
                 </h:form>
-                <h:commandButton value="Cita no realizada" action="#{medicoControlador.marcarAusente()}"></h:commandButton>
+                <h:form>
+                    <h:commandButton value="Cita no realizada" action="#{medicoControlador.marcarAusente()}"></h:commandButton>
+                </h:form>
+                 <h:form>
                 <h:commandButton value="Cita realizada" action="#{medicoControlador.marcarCompletada()}"></h:commandButton>
             </h:form>
             </ui:define>
