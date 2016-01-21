@@ -7,6 +7,7 @@ import es.uvigo.esei.dagss.controladores.autenticacion.AutenticacionControlador;
 import es.uvigo.esei.dagss.dominio.daos.CitaDAO;
 import es.uvigo.esei.dagss.dominio.daos.MedicamentoDAO;
 import es.uvigo.esei.dagss.dominio.daos.MedicoDAO;
+import es.uvigo.esei.dagss.dominio.daos.PrescripcionDAO;
 import es.uvigo.esei.dagss.dominio.daos.TratamientoDAO;
 import es.uvigo.esei.dagss.dominio.entidades.Cita;
 import es.uvigo.esei.dagss.dominio.entidades.EstadoCita;
@@ -48,6 +49,7 @@ public class MedicoControlador implements Serializable {
     private String password;
     private String comentarioPrescripcion;
     private Cita citaActual;
+    private Tratamiento tratamientoActual;
     private String textoBusqueda;
     private List<Medicamento> medicamentos; 
     private Date fechaInicio;
@@ -68,6 +70,9 @@ public class MedicoControlador implements Serializable {
     @EJB
     private TratamientoDAO tratamientoDAO;
     
+     @EJB
+    private PrescripcionDAO prescripcionDAO;
+     
     @EJB
     private CitaDAO citaDAO;
     /**
@@ -155,8 +160,19 @@ public class MedicoControlador implements Serializable {
     }
 
     public void setCitaActual(Cita medicoActual) {
+        
         this.citaActual = medicoActual;
     }
+
+    public Tratamiento getTratamientoActual() {
+        return tratamientoActual;
+    }
+
+    public void setTratamientoActual(Tratamiento tratamientoActual) {
+        this.tratamientoActual = tratamientoActual;
+    }
+    
+    
     private boolean parametrosAccesoInvalidos() {
         return (((dni == null) && (numeroColegiado == null)) || (password == null));
     }
@@ -185,6 +201,14 @@ public class MedicoControlador implements Serializable {
     
     public void doAddTratamiento(Medicamento medicamento){
         tratamientoService.doAddTratamiento(medicamento, citaActual, medicoActual, fechaInicio, fechaFin,comentarioPrescripcion, dosis);
+    }
+    
+    public void doSaveChanges(Prescripcion prescripcion){
+        prescripcion=prescripcionDAO.actualizar(prescripcion);
+    }
+    
+    public List<Tratamiento> verTratamientos(){
+        return tratamientoDAO.buscarPorMedico(medicoActual.getId());
     }
     public List<Cita> verCitasHoy(){
         String DATE_FORMAT = "yyyyMMdd";
@@ -218,6 +242,15 @@ public class MedicoControlador implements Serializable {
         this.citaActual=cita;
         String destino = null;
         destino="verCita";
+        return destino;
+    }
+    public void doEliminarTratamiento(Tratamiento tratamiento){
+        tratamientoDAO.eliminar(tratamiento);
+    }
+    public String doShowTratamiento(Tratamiento t){
+        this.tratamientoActual=t;
+        String destino=null;
+        destino="verTratamiento";
         return destino;
     }
     

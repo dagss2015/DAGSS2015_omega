@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="/plantillas/plantillaMedico.xhtml">
+
+            <ui:define name="tituloPagina">
+                Ver cita
+            </ui:define>            
+
+            
+                
+            
+
+            <ui:define name="contenido">
+               
+                <h:outputText value="Welcome, dr. #{medicoControlador.medicoActual.nombre}" />
+                <h:outputText value=" #{medicoControlador.medicoActual.email}"/>
+               
+
+                <div>
+                  
+                
+                </div>
+                <h:dataTable value="#{medicoControlador.tratamientoActual}" var="tratamiento">
+                    
+                    <h:column class="clasedeprueba">
+                       
+                        <h:outputText value="Id Tratamiento: #{tratamiento.id}"/>
+                    </h:column>
+                    <h:column></h:column>
+                    <h:column>
+                        
+                        <h:outputText value="Comentarios: #{tratamiento.comentarios}"/>
+                    </h:column>
+                    <h:column></h:column>
+                    <h:column>
+                        
+                        <h:outputText value="Fecha inicio: #{tratamiento.fechaInicio}"/>
+                    </h:column>
+                    <h:column></h:column>
+                    <h:column>
+                        
+                        <h:outputText value="Fecha fin: #{tratamiento.fechaFin}"/>
+                    </h:column>
+                   
+                </h:dataTable>
+                <h:form>
+                <h:dataTable value="#{medicoControlador.tratamientoActual.prescipciones}" var="prescripcion">
+                    <f:facet name="header"><h4>Listado de Citas</h4></f:facet>
+                    <h:column>
+                        <f:facet name="header">ID</f:facet>
+                        
+                        <h:outputText value="#{prescripcion.id}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Dosis</f:facet>
+                        <h:inputText value="#{prescripcion.dosis}"></h:inputText>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Indicaciones</f:facet>
+                        <h:inputText value="#{prescripcion.indicaciones}"></h:inputText>
+                        <!--h:outputText value="#{prescripcion.indicaciones}"/-->
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Nombre Medicamento</f:facet>
+                        <h:outputText value="#{prescripcion.medicamento.nombre}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header"></f:facet>
+                        <h:form>
+                        <h:commandButton value="Guardar Cambios" action="#{medicoControlador.doSaveChanges(prescripcion)}"></h:commandButton>
+                        
+                        </h:form>
+                    </h:column>
+                    
+                </h:dataTable>
+                </h:form>
+                
+                
+            </ui:define>
+        </ui:composition>
+
+    </body>
+</html>

@@ -21,5 +21,12 @@ public class TratamientoDAO extends GenericoDAO<Tratamiento>{
                 
         return q.getResultList();
     }
+    public List<Tratamiento> buscarPorMedico(long idMedico){
+        Query q = em.createQuery("SELECT t FROM Tratamiento AS t "
+                + "  WHERE (t.medico.id = :idpaciente)");
+        q.setParameter("idpaciente",idMedico);
+                
+        return q.getResultList();
+    }
     // Completar aqui
 }

@@ -18,6 +18,51 @@
             </ui:define>
 
             <ui:define name="contenido">
+                                        <h:form>
+
+                <h:panelGrid columnClasses="3">
+                        <h:outputLabel value="Buscar: "></h:outputLabel>
+                        <h:inputText value="#{farmaciaControlador.textoBusqueda}"></h:inputText>
+                       
+                        <h:commandButton value="Buscar" action="#{farmaciaControlador.doBuscarReceta()}"></h:commandButton>
+                        
+                   
+                    </h:panelGrid>
+                
+                <h:dataTable value="#{farmaciaControlador.recetas}" var="receta">
+                    <f:facet name="header"><h4>Listado de Recetas</h4></f:facet>
+                    <h:column>
+                        <f:facet name="header">ID</f:facet>
+                        <h:outputText value="#{receta.id}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Estado</f:facet>
+                        <h:outputText value="#{receta.estado}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Fin Validez</f:facet>
+                        <h:outputText value="#{receta.finValidez}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Cantidad</f:facet>
+                        <h:outputText value="#{receta.cantidad}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Medicamento</f:facet>
+                        <h:outputText value="#{receta.prescripcion.medicamento.nombre}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Medico</f:facet>
+                        <h:outputText value="#{receta.prescripcion.tratamiento.medico.nombre}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header"></f:facet>
+                        <h:commandButton value="Ver Receta" action="#{farmaciaControlador.doShowReceta(receta)}"></h:commandButton>
+                        
+                        
+                    </h:column>
+                </h:dataTable>
+</h:form>
             </ui:define>
 
         </ui:composition>
